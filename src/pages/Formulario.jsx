@@ -61,9 +61,20 @@ return (
         <div className="field">
         <label>Teléfono *</label>
         <input
-            type="tel"
-            {...register("telefono", { required: "El teléfono es obligatorio" })}
-            placeholder="387-555-1234"
+        type="tel"
+        placeholder="Ej: 3875551234"
+        {...register("telefono", {
+            required: "El teléfono es obligatorio",
+            pattern: {
+            value: /^[0-9]{7,15}$/,
+            message: "Solo números (7 a 15 dígitos)",
+            },
+        })}
+        onKeyPress={(e) => {
+            if (!/[0-9]/.test(e.key)) {
+            e.preventDefault(); // bloquea la tecla
+            }
+        }}
         />
         {errors.telefono && <span className="error">{errors.telefono.message}</span>}
         </div>
@@ -71,9 +82,15 @@ return (
         <div className="field">
         <label>Email *</label>
         <input
-            type="email"
-            {...register("email", { required: "El email es obligatorio", pattern: { value: /\S+@\S+\.\S+/, message: "Email inválido" } })}
-            placeholder="correo@ejemplo.com"
+        type="email"
+        {...register("email", {
+            required: "El email es obligatorio",
+            pattern: {
+            value: /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/,
+            message: "Correo inválido (ej: nombre@dominio.com)",
+            },
+        })}
+        placeholder="correo@ejemplo.com"
         />
         {errors.email && <span className="error">{errors.email.message}</span>}
         </div>
